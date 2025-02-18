@@ -19,7 +19,7 @@ class Bingo{
         void menuCout();
         void menu();
     };
-    static void playBingo();
+    static void playBingo(int ballsQuantity);
     static int generateFiles(int card[ballsQuantity], int cardsQuantity);
 
     

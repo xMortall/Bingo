@@ -5,183 +5,158 @@
  * @file bingo.cpp
  */
 
-#include "bingo.h"
+ #include "bingo.h"
 
-/**
- * @brief The game of Bingo
- */
-void Bingo::playBingo(int ballsQuantity) {
-
-    /**
-     * @param bool Boolean variable to declare if a number has been picked in an array with the full ammount of balls chosen for the game
-     */
-    bool picked[ballsQuantity + 1] = {false};
-
-    /**
-     * @param int Variable for the ammount of balls remaining unpicked
-     * @param int As default, this variable is set to the remaining balls as the full quantity
-     */
-    int remaining = ballsQuantity;
-
-    /**
-     * @param int Variable to store the previously used number
-     * @param int As default, sets the previous number as zero, as zero cannot be on the table
-     */
-    int lastNumber = 0;
-
-    /**
-     * @param srand Seed random number generator
-     */
-    srand(time(0));
-
-    /**
-     * @param while Game loop 
-     */
-    while (remaining > 0) {
-        /**
-         * @param int Variable to store the result of the current round
-         */
-        int result;
-        
-        /**
-         * @brief Function to pick a new unique number every round
-         */
-        do {
-            result = (rand() % ballsQuantity) + 1;
-        } while (picked[result]);
-
-        /**
-         * @param bool Marks the number as picked
-         */
-        picked[result] = true;
-
-        /**
-         * @param int Decreses the remaining ammount of balls
-         */
-        remaining--;
-
-        cout << "\nGenerating the next number...\n";
-
-        /**
-         * @param int Size of columns used for the table
-         */
-        int column = 10;
-
-        /**
-         * @brief Print the table
-         */
-        for (int i = 1; i <= ballsQuantity; i++) {
-            if (i == result) {
-                cout << BLUE << i << RESET << "\t";  // Highlight current number
-            } else if (i == lastNumber) {
-                cout << GREEN << i << RESET << "\t";  // Highlight previous number
-            } else {
-                cout << i << "\t";
-            }
-
-            /**
-             * @brief If i is a multiple of column, so we insert an endl
-             */
-            if (i % column == 0) {
-                cout << endl;
-            }
-        }
-        cout << endl;
-
-        /**
-         * @brief Simmulated blinking effect
-         */
-        for (int blink = 0; blink < 3; blink++) {
-            cout << "\rPrevious Number: " << GREEN << lastNumber << RESET
-                 << " | Current Number: " << BLUE << result << RESET << flush;
-            sleep(1);
-            cout << "\rPrevious Number: " << GREEN << lastNumber << RESET
-                 << " | Current Number: " << WHITE << result << flush;
-            sleep(1);
-        }
-        
-        /**
-         * @param int Update last picked number
-         */
-        lastNumber = result;
-    }
-    cout << "\nAll numbers have been picked! Game over.\n";
-}
-
-/**
- * @brief Generate Card
- */
-int Bingo::generateFiles(){
-    // cout << YELLOW << "How many cards do you want? \n";
-    // cin >> cardNumber;
-    // cardNumber = BIn
-    // cout << "How many balls do you want? \n" << RESET;
-    // cin >> Bingo::ballsQuantity;
-    // card[Bingo::ballsQuantity];
-    
-    // ofstream outFile("card" + to_string(cardNumber) + ".txt");
-    // if (outFile.is_open()) {
-    //     for (int i = 0; i < 25; i++) {
-    //         if (i == 12) {
-    //             outFile << "- ";
-    //         } else {
-    //             outFile << (card[i] == 0 ? "0" : to_string(card[i])) << " ";
-    //         }
-    //         if ((i + 1) % 5 == 0) {
-    //             outFile << endl;
-    //         }
-    //     }
-    //     outFile.close();
-    //     cout << GREEN << "Cartão " << cardNumber << " salvo com sucesso." << RESET << endl;
-    // } else {
-    //     cout << RED << "Erro ao abrir o arquivo para escrita." << RESET << endl;
-    // }
-    // return cardNumber, Bingo::ballsQuantity;
-}
-
-/**
- * @brief Just couts for menu
- */
-void Bingo::Menu::menuCout()
-{
-    cout << "_____________________________" << GREEN << R"(
- _ __ ___   ___ _ __  _   _ 
-| '_ ` _ \ / _ \ '_ \| | | |
-| | | | | |  __/ | | | |_| |
-|_| |_| |_|\___|_| |_|\__,_|
-)" << RESET
-         << "_____________________________" << endl; // Ascii of menu
-    cout << YELLOW << R"( 
-Press 1 to start the game
-Press 2 to create the cards
-Press 3 to exit
-)" << RESET; // Options for the menu
-    }
-
-    void Bingo::Menu::menu(){
-
-        Menu::menuCout();
-        Bingo::option;
-        cin >> option;
-
-
-        switch (option){
-        case 1:
-            Bingo::playBingo();
-            break;
-        case 2:
-            Bingo::generateFiles();
-            break;
-        case 3:
-            /**/
-            break;
-        case 4:
-            /*Close*/
-            exit;
-            break;
-
-        default: cout << RED << "That's not an option" << RESET << endl;
-                return;
-            break;
-        }
-    }
+ // Initial values for the static variables
+ int Bingo::cardsQuantity = 0;
+ int Bingo::ballsQuantity = 75;  // Default number of balls is set to 75
+ 
+ /**
+  * @brief Prompts the user to select the number of balls (75, 90, 100).
+  * Allows flexibility in choosing the number of balls for the bingo game.
+  */
+ int Bingo::numberOfBalls() {
+     cout << YELLOW << "How many balls do you want? (75, 90, 100)" << RESET << endl;
+     cin >> ballsQuantity;  // User input for number of balls
+     return 0;
+ }
+ 
+ /**
+  * @brief Starts the Bingo game.
+  * In this case, just a placeholder for the game start.
+  */
+ void Bingo::playBingo() {
+     cout << "Starting Bingo...\n";
+ }
+ 
+ /**
+  * @brief Generates a random number within a specified range using Linear Congruential Generator (LCG).
+  * The algorithm ensures a pseudo-random number generation.
+  */
+ int Bingo::randomNumber(int min, int max) {
+     static int seed = 12345;
+     seed = (seed * 1103515245 + 12345) & 0x7FFFFFFF;
+     return min + (seed % (max - min + 1));  // Generates a number within the given range
+ }
+ 
+ /**
+  * @brief Generates a single bingo card based on the selected number of balls.
+  * The card is a 5x5 matrix where each column has a range of numbers.
+  * The center space is free.
+  * @return A 5x5 bingo card (vector of vectors of integers)
+  */
+ vector<vector<int>> Bingo::generateCard() {
+     vector<vector<int>> card(cardsRows, vector<int>(cardsCols, 0));  // Initialize the bingo card
+ 
+     for (int column = 0; column < cardsCols; ++column) {
+         vector<bool> used(numbersPerColumn + 1, false);  // Track numbers already used in this column
+ 
+         // Adjust the number range for the selected number of balls
+         int min = column * ballsQuantity / 5 + 1;
+         int max = (column + 1) * ballsQuantity / 5;
+ 
+         for (int row = 0; row < cardsRows; ++row) {
+             if (row == 2 && column == 2) continue;  // Skip the center space (free space)
+ 
+             int num;
+             do {
+                 num = randomNumber(min, max);  // Generate a random number within the column's range
+             } while (used[num - min]);  // Ensure the number has not already been used in this column
+ 
+             used[num - min] = true;  // Mark the number as used
+             card[row][column] = num;  // Place the number in the card
+         }
+     }
+     return card;  // Return the generated card
+ }
+ 
+ /**
+  * @brief Saves multiple bingo cards to separate text files.
+  * Each card is written to a file with a name like "card_1.txt", "card_2.txt", etc.
+  * @param quantity Number of cards to generate and save
+  */
+ void Bingo::saveCardsToFiles(int quantity) {
+     for (int i = 1; i <= quantity; ++i) {
+         string fileName = "card_" + to_string(i) + ".txt";  // Generate a unique file name
+         ofstream file(fileName);
+ 
+         if (!file) {
+             cout << "Error creating file " << fileName << "!\n";  // Error handling for file creation
+             continue;
+         }
+ 
+         vector<vector<int>> card = generateCard();  // Generate a bingo card
+         file << "Card " << i << ":\n";
+         file << " B   I   N   G   O\n";  // Print the header with column names
+         for (int row = 0; row < cardsRows; ++row) {
+             for (int column = 0; column < cardsCols; ++column) {
+                 if (row == 2 && column == 2)
+                     file << " -  ";  // Free space in the center of the card
+                 else
+                     file << (card[row][column] < 10 ? " " : "") << card[row][column] << "  ";  // Format the numbers
+             }
+             file << "\n";  // End of row
+         }
+         file.close();
+         cout << GREEN << "Card " << i << " saved in '" << fileName << "'!\n" << RESET;
+     }
+ }
+ 
+ /**
+  * @brief Prompts the user for how many bingo cards to generate.
+  * Calls the function to save the cards to files.
+  * @return The number of cards generated
+  */
+ int Bingo::generateCardsFiles() {
+     cout << "How many cards do you want to generate? ";
+     cin >> cardsQuantity;  // User input for number of cards
+     saveCardsToFiles(cardsQuantity);  // Call the function to save the cards
+     return cardsQuantity;
+ }
+ 
+ /**
+  * @brief Displays the menu options for the user.
+  * Shows available choices like starting the game, generating cards, etc.
+  */
+ void Bingo::Menu::displayMenu() {
+     cout << "_____________________________" << GREEN << R"(
+  _ __ ___   ___ _ __  _   _ 
+ | '_ ` _ \ / _ \ '_ \| | | |
+ | | | | | |  __/ | | | |_| |
+ |_| |_| |_|\___|_| |_|\__,_| 
+ )" << RESET
+          << "_____________________________" << endl;
+     cout << YELLOW << R"( 
+ Press 1 to start the game
+ Press 2 to create the cards
+ Press 3 to set the number of balls
+ Press 4 to exit
+ )" << RESET;  // Display menu options
+ }
+ 
+ /**
+  * @brief Handles user input for the menu, calling appropriate functions.
+  * Responds to user's choice and calls functions accordingly.
+  */
+ void Bingo::Menu::handleMenu() {
+     displayMenu();  // Display the menu
+     cin >> Bingo::option;  // User input for menu option
+ 
+     switch (option) {
+     case 1:
+         playBingo();  // Start the bingo game
+         break;
+     case 2:
+         generateCardsFiles();  // Generate and save bingo cards
+         break;
+     case 3:
+         numberOfBalls();  // Set the number of balls
+         break;
+     case 4:
+         cout << "Exiting...\n";  // Exit the program
+         exit(0);
+     default:
+         cout << "Invalid option! Please try again.\n";  // Handle invalid input
+         return;
+     }
+ }

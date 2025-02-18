@@ -11,7 +11,7 @@
 //Libraries for manage the game
 #include <iostream>
 #include <fstream>
-#include "unistd.h"
+#include <vector>
 
 using namespace std;
 

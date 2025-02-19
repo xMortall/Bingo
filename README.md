@@ -1,8 +1,5 @@
 > [!NOTE]  
-> Work is a bingo based on the recommendations of our teacher Paulo Leite.  
-
-> [!IMPORTANT]  
-> This work is in pairs produced by me Emanuel Borges and my colleague José Gomes.  
+> Work is a bingo based on the recommendations of our teacher Paulo Leite.   
 
 > [!WARNING]  
 > Don't use to make money!  

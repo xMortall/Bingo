@@ -69,6 +69,7 @@
          * @param int Decreses the remaining ammount of balls
          */
         remaining--;
+        system("clear || cls");
         cout << "\nGenerating the next number...\n";
         /**
          * @param int Size of columns used for the table
@@ -203,6 +204,7 @@
   * Shows available choices like starting the game, generating cards, etc.
   */
  void Bingo::Menu::displayMenu() {
+    system("clear || cls");
      cout << "_____________________________" << GREEN << R"(
   _ __ ___   ___ _ __  _   _ 
  | '_ ` _ \ / _ \ '_ \| | | |

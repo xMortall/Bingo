@@ -83,6 +83,8 @@
                 cout << BLUE << i << RESET << "\t";  // Highlight current number
             } else if (i == lastNumber) {
                 cout << GREEN << i << RESET << "\t";  // Highlight previous number
+            } else if(picked[i] == true){
+                cout << RED << i << RESET << "\t";
             } else {
                 cout << i << "\t";
             }

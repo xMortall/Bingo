@@ -10,7 +10,7 @@
 int main(){
     Bingo::Menu menU;
     menU.handleMenu();
-    return 0;
+    return main();
 }
 
 //notas: usar param para variáveis e brief para funções

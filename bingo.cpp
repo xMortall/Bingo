@@ -15,6 +15,7 @@
  /**
   * @brief Prompts the user to select the number of balls (75, 90, 100).
   * Allows flexibility in choosing the number of balls for the bingo game.
+  * @return The number of balls
   */
  int Bingo::numberOfBalls() {
      cout << YELLOW << "How many balls do you want? (75, 90, 100)" << RESET << endl;
@@ -212,7 +213,8 @@
      cout << YELLOW << R"( 
  Press 1 to start the game
  Press 2 to create the cards
- Press 3 to exit
+ Press 3 to choose the quantity of balls
+ Press 4 to exit
  )" << RESET;  // Display menu options
  }
  
@@ -230,15 +232,17 @@
          playBingo(ballsQuantity);  // Start the bingo game
          break;
      case 2:
-         generateCardsFiles(numberOfBalls());  // Generate and save bingo cards
+         generateCardsFiles(ballsQuantity);  // Generate and save bingo cards
          isCardGenerated = true;
-         return displayMenu();
+         break;
      case 3:
+         numberOfBalls();
+         break;
+     case 4:
          cout << "Exiting...\n";  // Exit the program
          exit(0);
          break;
      default:
          cout << "Invalid option! Please try again.\n";  // Handle invalid input
-         return;
      }
  }

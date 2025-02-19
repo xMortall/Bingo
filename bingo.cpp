@@ -10,6 +10,7 @@
  // Initial values for the static variables
  int Bingo::cardsQuantity = 0;
  int Bingo::ballsQuantity = 75;  // Default number of balls is set to 75
+ bool Bingo::isCardGenerated = false;
  
  /**
   * @brief Prompts the user to select the number of balls (75, 90, 100).
@@ -18,16 +19,98 @@
  int Bingo::numberOfBalls() {
      cout << YELLOW << "How many balls do you want? (75, 90, 100)" << RESET << endl;
      cin >> ballsQuantity;  // User input for number of balls
-     return 0;
+     return ballsQuantity;
  }
  
- /**
-  * @brief Starts the Bingo game.
-  * In this case, just a placeholder for the game start.
-  */
- void Bingo::playBingo() {
-     cout << "Starting Bingo...\n";
- }
+/**
+ * @param bool Boolean variable to declare if a number has been picked in an array with the full ammount of balls chosen for the game
+ */
+ void Bingo::playBingo(int ballsQuantity) {
+    if(isCardGenerated = false){
+        cout << "Sorry but there are no cards generated yet\n";
+        return;
+    }
+    bool picked[ballsQuantity + 1] = {false};
+    /**
+     * @param int Variable for the ammount of balls remaining unpicked
+     * @param int As default, this variable is set to the remaining balls as the full quantity
+     */
+    int remaining = ballsQuantity;
+    /**
+     * @param int Variable to store the previously used number
+     * @param int As default, sets the previous number as zero, as zero cannot be on the table
+     */
+    int lastNumber = 0;
+    /**
+     * @param srand Seed random number generator
+     */
+    srand(time(0));
+    /**
+     * @param while Game loop 
+     */
+    while (remaining > 0) {
+        /**
+         * @param int Variable to store the result of the current round
+         */
+        int result;
+        
+        /**
+         * @brief Function to pick a new unique number every round
+         */
+        do {
+            result = (rand() % ballsQuantity) + 1;
+        } while (picked[result]);
+        /**
+         * @param bool Marks the number as picked
+         */
+        picked[result] = true;
+        /**
+         * @param int Decreses the remaining ammount of balls
+         */
+        remaining--;
+        cout << "\nGenerating the next number...\n";
+        /**
+         * @param int Size of columns used for the table
+         */
+        int column = 10;
+        /**
+         * @brief Print the table
+         */
+        for (int i = 1; i <= ballsQuantity; i++) {
+            if (i == result) {
+                cout << BLUE << i << RESET << "\t";  // Highlight current number
+            } else if (i == lastNumber) {
+                cout << GREEN << i << RESET << "\t";  // Highlight previous number
+            } else {
+                cout << i << "\t";
+            }
+            /**
+             * @brief If i is a multiple of column, so we insert an endl
+             */
+            if (i % column == 0) {
+                cout << endl;
+            }
+        }
+        cout << endl;
+        /**
+         * @brief Simmulated blinking effect
+         */
+        for (int blink = 0; blink < 2; blink++) {
+            cout << "\rPrevious Number: " << GREEN << lastNumber << RESET
+                 << " | Current Number: " << BLUE << result << RESET << flush;
+            sleep(1);
+            cout << "\rPrevious Number: " << GREEN << lastNumber << RESET
+                 << " | Current Number: " << WHITE << result << flush;
+            sleep(1);
+        }
+        
+        /**
+         * @param int Update last picked number
+         */
+        lastNumber = result;
+    }
+    cout << "\nAll numbers have been picked! Game over.\n";
+}
  
  /**
   * @brief Generates a random number within a specified range using Linear Congruential Generator (LCG).
@@ -45,7 +128,7 @@
   * The center space is free.
   * @return A 5x5 bingo card (vector of vectors of integers)
   */
- vector<vector<int>> Bingo::generateCard() {
+ vector<vector<int>> Bingo::generateCard(int ballsQuantity) {
      vector<vector<int>> card(cardsRows, vector<int>(cardsCols, 0));  // Initialize the bingo card
  
      for (int column = 0; column < cardsCols; ++column) {
@@ -67,7 +150,7 @@
              card[row][column] = num;  // Place the number in the card
          }
      }
-     return card;  // Return the generated card
+     return card; // Return the generated card
  }
  
  /**
@@ -85,7 +168,7 @@
              continue;
          }
  
-         vector<vector<int>> card = generateCard();  // Generate a bingo card
+         vector<vector<int>> card = generateCard(ballsQuantity);  // Generate a bingo card
          file << "Card " << i << ":\n";
          file << " B   I   N   G   O\n";  // Print the header with column names
          for (int row = 0; row < cardsRows; ++row) {
@@ -107,7 +190,7 @@
   * Calls the function to save the cards to files.
   * @return The number of cards generated
   */
- int Bingo::generateCardsFiles() {
+ int Bingo::generateCardsFiles(int ballsQuantity) {
      cout << "How many cards do you want to generate? ";
      cin >> cardsQuantity;  // User input for number of cards
      saveCardsToFiles(cardsQuantity);  // Call the function to save the cards
@@ -129,8 +212,7 @@
      cout << YELLOW << R"( 
  Press 1 to start the game
  Press 2 to create the cards
- Press 3 to set the number of balls
- Press 4 to exit
+ Press 3 to exit
  )" << RESET;  // Display menu options
  }
  
@@ -139,22 +221,22 @@
   * Responds to user's choice and calls functions accordingly.
   */
  void Bingo::Menu::handleMenu() {
+    int option;
      displayMenu();  // Display the menu
-     cin >> Bingo::option;  // User input for menu option
+     cin >> option;  // User input for menu option
  
      switch (option) {
      case 1:
-         playBingo();  // Start the bingo game
+         playBingo(ballsQuantity);  // Start the bingo game
          break;
      case 2:
-         generateCardsFiles();  // Generate and save bingo cards
-         break;
+         generateCardsFiles(numberOfBalls());  // Generate and save bingo cards
+         isCardGenerated = true;
+         return displayMenu();
      case 3:
-         numberOfBalls();  // Set the number of balls
-         break;
-     case 4:
          cout << "Exiting...\n";  // Exit the program
          exit(0);
+         break;
      default:
          cout << "Invalid option! Please try again.\n";  // Handle invalid input
          return;

@@ -8,7 +8,8 @@
 #include "bingo.h"
 
 int main(){
-    Bingo Bingo{};
+    Bingo::Menu menU;
+    menU.handleMenu();
     return 0;
 }
 

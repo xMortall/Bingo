@@ -69,7 +69,6 @@ sleep(2);
     * @param int As default, sets the previous number as zero, as zero cannot be on the table
     */
     int lastNumber = 0;
-    
     srand(time(0));
 
     /**

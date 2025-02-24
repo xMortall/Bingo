@@ -84,7 +84,7 @@ To run the game, execute:
 ## Dependencies
 
 - C++ Compiler (e.g., g++)
-- Standard libraries: **`<iostrean>`, `<fstream>`, `<vector>`, `<unistd.h>`**
+- Standard libraries: **`<iostream>`, `<fstream>`, `<vector>`, `<unistd.h>`**
 
 # Conclusion
 

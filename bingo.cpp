@@ -51,7 +51,7 @@ int Bingo::gameMode()
  */
 void Bingo::playBingo(int ballsQuantity, bool isAutomatic) {
     if (isCardGenerated == false) {
-        cout << "Sorry but there are no cards generated yet\n";
+        cout << RED << "Sorry but there are no cards generated yet\n" << RESET;
 sleep(2);
         return;
     }

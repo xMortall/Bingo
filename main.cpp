@@ -12,5 +12,3 @@ int main(){
     menU.handleMenu();
     return main();
 }
-
-//notas: usar param para variáveis e brief para funções

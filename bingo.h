@@ -11,7 +11,6 @@
 
 class Bingo {
     private:
-        static int option;          // Stores the menu option chosen by the user
         static int cardsQuantity;   // Stores how many bingo cards will be generated
         static int ballsQuantity;   // Stores the number of balls in the game (default: 75)
         static const int cardsRows = 5;  // Number of rows in the bingo card
